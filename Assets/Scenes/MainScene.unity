@@ -1135,7 +1135,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Range Cells Selector
+  m_text: Cells Selection
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 354441c962916af489e3094f67c82609, type: 2}
   m_sharedMaterial: {fileID: 9053629576895179563, guid: 354441c962916af489e3094f67c82609,
@@ -2064,7 +2064,7 @@ GameObject:
   - component: {fileID: 1388698026}
   - component: {fileID: 1388698025}
   m_Layer: 5
-  m_Name: RangeCellsPanel
+  m_Name: CellsSelectionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

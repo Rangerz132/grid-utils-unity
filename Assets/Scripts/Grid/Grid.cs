@@ -102,6 +102,18 @@ public class Grid : MonoBehaviour
     }
 
     /// <summary>
+    /// Activate neighbor cells in a Cross shape
+    /// </summary>
+    /// <param name="initialCellIndex"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    public void ActivateCrossNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
+    {
+        var cellList = gridUtils.GetCrossNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        ActivateGrid(cellList);
+    }
+
+    /// <summary>
     /// Activate neighbor cells in a circular shape
     /// </summary>
     /// <param name="initialCellIndex"></param>
@@ -122,5 +134,7 @@ public class Grid : MonoBehaviour
     {
         var cellList = gridUtils.GetDiagonalNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
-    }  
+    }
+
+    
 }

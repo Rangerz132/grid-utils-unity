@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class RangeCellsSelectorButton : MonoBehaviour
+public class CellsSelectionButton : MonoBehaviour
 {
     [SerializeField] private Grid grid;
     [SerializeField] private TMP_Dropdown typeDropDown;
@@ -41,9 +41,12 @@ public class RangeCellsSelectorButton : MonoBehaviour
                 activateNeighboringCellsMethod = grid.ActivateSquareNeighboringCells;
                 break;
             case 1:
-                activateNeighboringCellsMethod = grid.ActivateCircularNeighboringCells;
+                activateNeighboringCellsMethod = grid.ActivateCrossNeighboringCells;
                 break;
             case 2:
+                activateNeighboringCellsMethod = grid.ActivateCircularNeighboringCells;
+                break;
+            case 3:
                 activateNeighboringCellsMethod = grid.ActivateDiagonalNeighboringCells;
                 break;
             default:
