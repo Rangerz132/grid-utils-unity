@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,7 +69,7 @@ public class Grid : MonoBehaviour
     /// <summary>
     /// Deactivate all cells
     /// </summary>
-    private void ResetGrid()
+    public void DeactivateGrid()
     {
         // Deactivate all cells
         for (var i = 0; i < Cells.Count; i++)
@@ -90,20 +89,38 @@ public class Grid : MonoBehaviour
         }
     }
 
-    private void ActivateCircularNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell) {
-        var cellList = gridUtils.GetCircularNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
-        ActivateGrid(cellList);
-    }
-
-    private void ActivateDiagonalNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
-    {
-        var cellList = gridUtils.GetDiagonalNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
-        ActivateGrid(cellList);
-    }
-
-    private void ActivateSquareNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
+    /// <summary>
+    /// Activate neighbor cells in a square shape
+    /// </summary>
+    /// <param name="initialCellIndex"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    public void ActivateSquareNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
     {
         var cellList = gridUtils.GetSquareNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
     }
+
+    /// <summary>
+    /// Activate neighbor cells in a circular shape
+    /// </summary>
+    /// <param name="initialCellIndex"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    public void ActivateCircularNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell) {
+        var cellList = gridUtils.GetCircularNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        ActivateGrid(cellList);
+    }
+
+    /// <summary>
+    /// Activate neighbor cells in a Diagonal shape
+    /// </summary>
+    /// <param name="initialCellIndex"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    public void ActivateDiagonalNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
+    {
+        var cellList = gridUtils.GetDiagonalNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        ActivateGrid(cellList);
+    }  
 }
