@@ -17,20 +17,20 @@ public class Grid : MonoBehaviour
     void Start()
     {
         gridUtils = new GridUtils();
-        GenerateGrid();
+        GenerateGrid(Width, Height);
     }
 
     /// <summary>
     /// Generate the grid
     /// </summary>
-    private void GenerateGrid()
+    public void GenerateGrid(int width, int height)
     {
         // Clear grid before generating a new one
         ClearGrid();
 
-        for (var x = 0; x < Width; x++)
+        for (var x = 0; x < width; x++)
         {
-            for (var y = 0; y < Height; y++)
+            for (var y = 0; y < height; y++)
             {
                 // Get the current index and position according to the x and y
                 int currentIndex = gridUtils.GetCellIndex(Height, x, y);
@@ -49,6 +49,17 @@ public class Grid : MonoBehaviour
                 Cells.Add(currentCell);
             }
         }
+    }
+
+    /// <summary>
+    /// Update grid size
+    /// </summary>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    public void updateGridSize(int width, int height)
+    {
+        Width = width;
+        Height = height;
     }
 
     /// <summary>
@@ -119,7 +130,8 @@ public class Grid : MonoBehaviour
     /// <param name="initialCellIndex"></param>
     /// <param name="maxDistance"></param>
     /// <param name="includeInitialCell"></param>
-    public void ActivateCircularNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell) {
+    public void ActivateCircularNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
+    {
         var cellList = gridUtils.GetCircularNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
     }
@@ -136,5 +148,5 @@ public class Grid : MonoBehaviour
         ActivateGrid(cellList);
     }
 
-    
+
 }
