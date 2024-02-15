@@ -3,27 +3,29 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-    [SerializeField] private Cell cell;
-    [field: SerializeField] public int Width { get; private set; }
-    [field: SerializeField] public int Height { get; private set; }
+    public int width;
+    public int height;
+
     [field: SerializeField] public float OffsetX { get; private set; }
     [field: SerializeField] public float OffsetY { get; private set; }
+    [field: SerializeField] public Cell Cell { get; private set; }  
     [field: SerializeField] public List<Cell> Cells { get; private set; } = new List<Cell>();
+
 
     private GridUtils gridUtils;
 
-
+    
     // Start is called before the first frame update
     void Start()
     {
         gridUtils = new GridUtils();
-        GenerateGrid(Width, Height);
+        GenerateGrid();
     }
 
     /// <summary>
     /// Generate the grid
     /// </summary>
-    public void GenerateGrid(int width, int height)
+    public void GenerateGrid()
     {
         // Clear grid before generating a new one
         ClearGrid();
@@ -33,11 +35,11 @@ public class Grid : MonoBehaviour
             for (var y = 0; y < height; y++)
             {
                 // Get the current index and position according to the x and y
-                int currentIndex = gridUtils.GetCellIndex(Height, x, y);
-                Vector3 currentPosition = new Vector3(x * OffsetX, y * OffsetY, 0);
+                int currentIndex = gridUtils.GetCellIndex(height, x, y);
+                Vector3 currentPosition = new Vector3(x * OffsetX - width/2, y * OffsetY + height / 2, 0);
 
                 // Instantite Cell
-                Cell currentCell = Instantiate(cell);
+                Cell currentCell = Instantiate(Cell);
 
                 // Initialize Cell with the correct properties
                 currentCell.Initialize(x, y, currentIndex, currentPosition);
@@ -51,16 +53,6 @@ public class Grid : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Update grid size
-    /// </summary>
-    /// <param name="width"></param>
-    /// <param name="height"></param>
-    public void updateGridSize(int width, int height)
-    {
-        Width = width;
-        Height = height;
-    }
 
     /// <summary>
     /// Destroy any element in the grid
@@ -108,7 +100,7 @@ public class Grid : MonoBehaviour
     /// <param name="includeInitialCell"></param>
     public void ActivateSquareNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
     {
-        var cellList = gridUtils.GetSquareNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        var cellList = gridUtils.GetSquareNeighboringCells(height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
     }
 
@@ -120,7 +112,7 @@ public class Grid : MonoBehaviour
     /// <param name="includeInitialCell"></param>
     public void ActivateCrossNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
     {
-        var cellList = gridUtils.GetCrossNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        var cellList = gridUtils.GetCrossNeighboringCells(height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
     }
 
@@ -132,7 +124,7 @@ public class Grid : MonoBehaviour
     /// <param name="includeInitialCell"></param>
     public void ActivateCircularNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
     {
-        var cellList = gridUtils.GetCircularNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        var cellList = gridUtils.GetCircularNeighboringCells(height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
     }
 
@@ -144,7 +136,7 @@ public class Grid : MonoBehaviour
     /// <param name="includeInitialCell"></param>
     public void ActivateDiagonalNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
     {
-        var cellList = gridUtils.GetDiagonalNeighboringCells(Height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        var cellList = gridUtils.GetDiagonalNeighboringCells(height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
     }
 

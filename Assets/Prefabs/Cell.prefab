@@ -49,6 +49,7 @@ MonoBehaviour:
   x: 0
   y: 0
   index: 0
+  size: 2
   cellVisual: {fileID: 769907748558180701}
   cellText: {fileID: 4396368018735142631}
   activateColor: {r: 1, g: 0.67058825, b: 0.2509804, a: 1}

@@ -8,6 +8,7 @@ public class Cell : MonoBehaviour
     public int x;
     public int y;
     public int index;
+    public float size;
 
     [SerializeField] private SpriteRenderer cellVisual;
     [SerializeField] private TextMeshPro cellText;
@@ -28,6 +29,7 @@ public class Cell : MonoBehaviour
         this.index = index;
         transform.position = position;
         SetCellText();
+
     }
 
     /// <summary>
