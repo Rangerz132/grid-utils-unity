@@ -80,6 +80,10 @@ public class CellsSelectionButton : MonoBehaviour
         {
             return intValue;
         }
+        else if (float.TryParse(value, out float floatValue))
+        {
+            return Mathf.RoundToInt(floatValue);
+        }
         else
         {
             Debug.LogWarning("Failed to convert to int");
