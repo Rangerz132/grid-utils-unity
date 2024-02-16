@@ -36,7 +36,7 @@ public class Grid : MonoBehaviour
             {
                 // Get the current index and position according to the x and y
                 int currentIndex = gridUtils.GetCellIndex(height, x, y);
-                Vector3 currentPosition = new Vector3(x * OffsetX - width/2, y * OffsetY + height / 2, 0);
+                Vector3 currentPosition = new Vector3(x * OffsetX - width/2, y * OffsetY - height / 2, 0);
 
                 // Instantite Cell
                 Cell currentCell = Instantiate(Cell);
@@ -100,7 +100,6 @@ public class Grid : MonoBehaviour
     /// <param name="includeInitialCell"></param>
     public void ActivateInRangeNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
     {
-        Debug.Log("mamadou");
         var cellList = gridUtils.GetCellsInRange(height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
     }
@@ -150,6 +149,18 @@ public class Grid : MonoBehaviour
     public void ActivateDiagonalNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
     {
         var cellList = gridUtils.GetDiagonalNeighboringCells(height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        ActivateGrid(cellList);
+    }
+
+    /// <summary>
+    /// Activate neighbor cells in a direction
+    /// </summary>
+    /// <param name="initialCellIndex"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    public void ActivateNeighboringCellsInDirection(int initialCellIndex, int maxDistance, bool includeInitialCell, Vector2Int direction)
+    {
+        var cellList = gridUtils.GetCellsInDirection(height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, direction, maxDistance, includeInitialCell);
         ActivateGrid(cellList);
     }
 

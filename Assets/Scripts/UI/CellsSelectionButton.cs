@@ -11,7 +11,7 @@ public class CellsSelectionButton : MonoBehaviour
     [SerializeField] private TMP_InputField maxDistanceInputField;
     [SerializeField] private Toggle includeTargetCellToggle;
 
-    private Action<int, int, bool> activateNeighboringCellsMethod;
+    private Action<int, int, bool, Vector2Int> activateNeighboringCellsMethod;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class CellsSelectionButton : MonoBehaviour
         typeDropDown.onValueChanged.AddListener(OnDropdownValueChanged);
 
         // Set the default action value
-        activateNeighboringCellsMethod = grid.ActivateInRangeNeighboringCells;
+        activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateInRangeNeighboringCells(x, y, includeInitialCell);
     }
 
     /// <summary>
@@ -38,22 +38,46 @@ public class CellsSelectionButton : MonoBehaviour
         switch (value)
         {
             case 0:
-                activateNeighboringCellsMethod = grid.ActivateInRangeNeighboringCells;
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateInRangeNeighboringCells(x, y, includeInitialCell); 
                 break;
             case 1:
-                activateNeighboringCellsMethod = grid.ActivateSquareNeighboringCells;
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateSquareNeighboringCells(x, y, includeInitialCell);
                 break;
             case 2:
-                activateNeighboringCellsMethod = grid.ActivateCrossNeighboringCells;
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateCrossNeighboringCells(x, y, includeInitialCell);
                 break;
             case 3:
-                activateNeighboringCellsMethod = grid.ActivateCircularNeighboringCells;
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateCircularNeighboringCells(x, y, includeInitialCell);
                 break;
             case 4:
-                activateNeighboringCellsMethod = grid.ActivateDiagonalNeighboringCells;
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateDiagonalNeighboringCells(x, y, includeInitialCell);
+                break;
+            case 5: // North
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateNeighboringCellsInDirection(x, y, includeInitialCell, new Vector2Int(0, -1));
+                break;
+            case 6: // East
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateNeighboringCellsInDirection(x, y, includeInitialCell, new Vector2Int(1, 0));
+                break;
+            case 7: // South
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateNeighboringCellsInDirection(x, y, includeInitialCell, new Vector2Int(0, 1));
+                break;
+            case 8: // West
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateNeighboringCellsInDirection(x, y, includeInitialCell, new Vector2Int(-1, 0));
+                break;
+            case 9: // North-East
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateNeighboringCellsInDirection(x, y, includeInitialCell, new Vector2Int(1, -1));
+                break;
+            case 10: // North-West
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateNeighboringCellsInDirection(x, y, includeInitialCell, new Vector2Int(-1, -1));
+                break;
+            case 11: // South-East
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateNeighboringCellsInDirection(x, y, includeInitialCell, new Vector2Int(1, 1));
+                break;
+            case 12: // South-West
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateNeighboringCellsInDirection(x, y, includeInitialCell, new Vector2Int(-1, 1));
                 break;
             default:
-                activateNeighboringCellsMethod = grid.ActivateInRangeNeighboringCells;
+                activateNeighboringCellsMethod = (x, y, includeInitialCell, direction) => grid.ActivateInRangeNeighboringCells(x, y, includeInitialCell);
                 break;
         }
     }
@@ -68,8 +92,9 @@ public class CellsSelectionButton : MonoBehaviour
         int maxDistance = ConvertToInt(maxDistanceInputField.text);
         bool includeTargetCell = includeTargetCellToggle.isOn;
 
-        activateNeighboringCellsMethod(targetCellIndex, maxDistance, includeTargetCell);
-
+        // Set a default direction if needed
+        Vector2Int defaultDirection = Vector2Int.up;
+        activateNeighboringCellsMethod(targetCellIndex, maxDistance, includeTargetCell, defaultDirection);
     }
 
     /// <summary>

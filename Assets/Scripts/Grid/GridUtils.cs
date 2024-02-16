@@ -65,12 +65,12 @@ public class GridUtils
     /// <returns></returns>
     public List<Cell> GetCellsInRange(int gridHeight, Cell cell, List<Cell> cellList, int maxDistance, bool includeInitialCell)
     {
-        List<Cell> cells = new List<Cell>();
+        List<Cell> neighbors = new List<Cell>();
 
         // Include the initial cell if specified
         if (includeInitialCell)
         {
-            cells.Add(cell);
+            neighbors.Add(cell);
         }
 
         // Iterate through all possible offsets up to the maximum distance
@@ -97,14 +97,14 @@ public class GridUtils
 
                         // Add the neighbor cell to the list
                         if (neighborCell != null)
-                            cells.Add(neighborCell);
+                            neighbors.Add(neighborCell);
                     }
                 }
             }
         }
 
 
-        return cells;
+        return neighbors;
     }
 
     /// <summary>
@@ -197,10 +197,10 @@ public class GridUtils
     /// <summary>
     /// Get all neighboring cells in a diagonal pattern
     /// </summary>
-    /// <param name="gridHeight">Height of the grid</param>
-    /// <param name="cell">The cell for which diagonal neighbors are to be found</param>
-    /// <param name="cellList">List of all cells</param>
-    /// <param name="maxDistance">Maximum distance to consider for diagonal cells</param>
+    /// <param name="gridHeight"></param>
+    /// <param name="cell"></param>
+    /// <param name="cellList"></param>
+    /// <param name="maxDistance"></param>
     public List<Cell> GetDiagonalNeighboringCells(int gridHeight, Cell cell, List<Cell> cellList, int maxDistance, bool includeInitialCell)
     {
         List<Cell> neighbors = new List<Cell>();
@@ -241,10 +241,10 @@ public class GridUtils
     /// <summary>
     /// Get all neighboring cells in a circular pattern
     /// </summary>
-    /// <param name="gridHeight">Height of the grid</param>
-    /// <param name="cell">The cell for which circular neighbors are to be found</param>
-    /// <param name="cellList">List of all cells</param>
-    /// <param name="radius">Radius of the circular pattern</param>
+    /// <param name="gridHeight"></param>
+    /// <param name="cell"></param>
+    /// <param name="cellList"></param>
+    /// <param name="radius"></param>
     public List<Cell> GetCircularNeighboringCells(int gridHeight, Cell cell, List<Cell> cellList, int radius, bool includeInitialCell)
     {
         List<Cell> neighbors = new List<Cell>();
@@ -275,6 +275,55 @@ public class GridUtils
                     if (neighborCell != null)
                         neighbors.Add(neighborCell);
                 }
+            }
+        }
+
+        return neighbors;
+    }
+
+    /// <summary>
+    /// Get cells in a specific direction
+    /// </summary>
+    /// <param name="gridHeight"></param>
+    /// <param name="cell"></param>
+    /// <param name="cellList"></param>
+    /// <param name="direction"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    /// <returns></returns>
+    public List<Cell> GetCellsInDirection(int gridHeight, Cell cell, List<Cell> cellList, Vector2Int direction, int maxDistance, bool includeInitialCell)
+    {
+        List<Cell> neighbors = new List<Cell>();
+        int dx = direction.x;
+        int dy = direction.y;
+
+        if (includeInitialCell)
+        {
+            neighbors.Add(cell);
+        }
+
+        for (int i = 1; i <= maxDistance; i++)
+        {
+            int neighborX = cell.x + dx * i;
+            int neighborY = cell.y + dy * i;
+
+            // Check if the neighboring cell is within the bounds of the grid
+            if (neighborX >= 0 && neighborX < gridHeight && neighborY >= 0 && neighborY < gridHeight)
+            {
+                // Get the neighbor cell index and retrieve the cell from the list
+                int neighborCellIndex = GetCellIndex(gridHeight, neighborX, neighborY);
+                Cell neighborCell = GetCellAtIndex(neighborCellIndex, cellList);
+
+                // Add the neighbor cell to the list
+                if (neighborCell != null)
+                    neighbors.Add(neighborCell);
+            }
+
+            // Stop adding cells if we reach a cell that is not within the grid or if max distance is reached
+            if (neighborX < 0 || neighborX >= gridHeight || neighborY < 0 || neighborY >= gridHeight || i == maxDistance)
+            {
+
+                break;
             }
         }
 
