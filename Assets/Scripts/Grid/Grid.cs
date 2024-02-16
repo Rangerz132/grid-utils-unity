@@ -93,7 +93,20 @@ public class Grid : MonoBehaviour
     }
 
     /// <summary>
-    /// Activate neighbor cells in a square shape
+    /// Activate neighbor cells in range
+    /// </summary>
+    /// <param name="initialCellIndex"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    public void ActivateInRangeNeighboringCells(int initialCellIndex, int maxDistance, bool includeInitialCell)
+    {
+        Debug.Log("mamadou");
+        var cellList = gridUtils.GetCellsInRange(height, gridUtils.GetCellAtIndex(initialCellIndex, Cells), Cells, maxDistance, includeInitialCell);
+        ActivateGrid(cellList);
+    }
+
+    /// <summary>
+    /// Activate neighbor cells in a Square pattern
     /// </summary>
     /// <param name="initialCellIndex"></param>
     /// <param name="maxDistance"></param>
@@ -105,7 +118,7 @@ public class Grid : MonoBehaviour
     }
 
     /// <summary>
-    /// Activate neighbor cells in a Cross shape
+    /// Activate neighbor cells in a Cross pattern
     /// </summary>
     /// <param name="initialCellIndex"></param>
     /// <param name="maxDistance"></param>
@@ -117,7 +130,7 @@ public class Grid : MonoBehaviour
     }
 
     /// <summary>
-    /// Activate neighbor cells in a circular shape
+    /// Activate neighbor cells in a Circular pattern
     /// </summary>
     /// <param name="initialCellIndex"></param>
     /// <param name="maxDistance"></param>
@@ -129,7 +142,7 @@ public class Grid : MonoBehaviour
     }
 
     /// <summary>
-    /// Activate neighbor cells in a Diagonal shape
+    /// Activate neighbor cells in a Diagonal pattern
     /// </summary>
     /// <param name="initialCellIndex"></param>
     /// <param name="maxDistance"></param>

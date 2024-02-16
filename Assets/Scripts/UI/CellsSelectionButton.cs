@@ -26,7 +26,7 @@ public class CellsSelectionButton : MonoBehaviour
         typeDropDown.onValueChanged.AddListener(OnDropdownValueChanged);
 
         // Set the default action value
-        activateNeighboringCellsMethod = grid.ActivateSquareNeighboringCells;
+        activateNeighboringCellsMethod = grid.ActivateInRangeNeighboringCells;
     }
 
     /// <summary>
@@ -38,19 +38,22 @@ public class CellsSelectionButton : MonoBehaviour
         switch (value)
         {
             case 0:
-                activateNeighboringCellsMethod = grid.ActivateSquareNeighboringCells;
+                activateNeighboringCellsMethod = grid.ActivateInRangeNeighboringCells;
                 break;
             case 1:
-                activateNeighboringCellsMethod = grid.ActivateCrossNeighboringCells;
+                activateNeighboringCellsMethod = grid.ActivateSquareNeighboringCells;
                 break;
             case 2:
-                activateNeighboringCellsMethod = grid.ActivateCircularNeighboringCells;
+                activateNeighboringCellsMethod = grid.ActivateCrossNeighboringCells;
                 break;
             case 3:
+                activateNeighboringCellsMethod = grid.ActivateCircularNeighboringCells;
+                break;
+            case 4:
                 activateNeighboringCellsMethod = grid.ActivateDiagonalNeighboringCells;
                 break;
             default:
-                activateNeighboringCellsMethod = grid.ActivateCircularNeighboringCells;
+                activateNeighboringCellsMethod = grid.ActivateInRangeNeighboringCells;
                 break;
         }
     }
@@ -59,7 +62,7 @@ public class CellsSelectionButton : MonoBehaviour
     /// Trigger event when the button is click
     /// </summary>
     private void OnButtonClick()
-    {   
+    {
         // Get the data from the UI
         int targetCellIndex = ConvertToInt(targetCellIndexInputField.text);
         int maxDistance = ConvertToInt(maxDistanceInputField.text);

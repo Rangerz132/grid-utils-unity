@@ -55,7 +55,60 @@ public class GridUtils
     }
 
     /// <summary>
-    /// Get all neighboring cells around a specific cell
+    /// Get all neighboring cells in a certain range
+    /// </summary>
+    /// <param name="gridHeight"></param>
+    /// <param name="cell"></param>
+    /// <param name="cellList"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    /// <returns></returns>
+    public List<Cell> GetCellsInRange(int gridHeight, Cell cell, List<Cell> cellList, int maxDistance, bool includeInitialCell)
+    {
+        List<Cell> cells = new List<Cell>();
+
+        // Include the initial cell if specified
+        if (includeInitialCell)
+        {
+            cells.Add(cell);
+        }
+
+        // Iterate through all possible offsets up to the maximum distance
+        for (int dx = -maxDistance; dx <= maxDistance; dx++)
+        {
+            for (int dy = -maxDistance; dy <= maxDistance; dy++)
+            {
+                // Skip the center cell (0,0) which is the cell itself
+                if (dx == 0 && dy == 0)
+                    continue;
+
+                // Check if the distance from the initial cell to the current cell is within the maximum distance
+                if (Mathf.Abs(dx) + Mathf.Abs(dy) <= maxDistance)
+                {
+                    int neighborX = cell.x + dx;
+                    int neighborY = cell.y + dy;
+
+                    // Check if the neighboring cell is within the bounds of the grid
+                    if (neighborX >= 0 && neighborX < gridHeight && neighborY >= 0 && neighborY < gridHeight)
+                    {
+                        // Get the neighbor cell index and retrieve the cell from the list
+                        int neighborCellIndex = GetCellIndex(gridHeight, neighborX, neighborY);
+                        Cell neighborCell = GetCellAtIndex(neighborCellIndex, cellList);
+
+                        // Add the neighbor cell to the list
+                        if (neighborCell != null)
+                            cells.Add(neighborCell);
+                    }
+                }
+            }
+        }
+
+
+        return cells;
+    }
+
+    /// <summary>
+    /// Get all neighboring cells in a square pattern
     /// </summary>
     /// <param name="gridHeight"></param>
     /// <param name="cell"></param>
@@ -94,14 +147,14 @@ public class GridUtils
     }
 
     /// <summary>
-    /// Get all neighboring cells in a cross shape (top, bottom, left, and right directions) around a specific cell up to a maximum distance
+    /// Get all neighboring cells in a cross pattern
     /// </summary>
-    /// <param name="gridHeight">Height of the grid</param>
-    /// <param name="cell">The cell for which cross neighbors are to be found</param>
-    /// <param name="cellList">List of all cells</param>
-    /// <param name="maxDistance">Maximum distance to consider for cross neighbors</param>
-    /// <param name="includeInitialCell">Whether to include the initial cell in the list of neighbors</param>
-    /// <returns>List of cross neighboring cells</returns>
+    /// <param name="gridHeight"></param>
+    /// <param name="cell"></param>
+    /// <param name="cellList"></param>
+    /// <param name="maxDistance"></param>
+    /// <param name="includeInitialCell"></param>
+    /// <returns></returns>
     public List<Cell> GetCrossNeighboringCells(int gridHeight, Cell cell, List<Cell> cellList, int maxDistance, bool includeInitialCell)
     {
         List<Cell> neighbors = new List<Cell>();
@@ -142,7 +195,7 @@ public class GridUtils
     }
 
     /// <summary>
-    /// Get all neighboring cells in diagonal positions around a specific cell
+    /// Get all neighboring cells in a diagonal pattern
     /// </summary>
     /// <param name="gridHeight">Height of the grid</param>
     /// <param name="cell">The cell for which diagonal neighbors are to be found</param>
@@ -186,7 +239,7 @@ public class GridUtils
     }
 
     /// <summary>
-    /// Get all neighboring cells in a circular pattern around a specific cell
+    /// Get all neighboring cells in a circular pattern
     /// </summary>
     /// <param name="gridHeight">Height of the grid</param>
     /// <param name="cell">The cell for which circular neighbors are to be found</param>
